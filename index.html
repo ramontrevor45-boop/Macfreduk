@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Freduk CheckApp</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #39ff14;
+      font-family: 'Arial Black', sans-serif;
+      text-align: center;
+      padding-top: 100px;
+    }
+    input {
+      background: #111;
+      border: 2px solid #39ff14;
+      color: #39ff14;
+      padding: 10px;
+      border-radius: 10px;
+      width: 200px;
+      text-align: center;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: none;
+      background: #39ff14;
+      color: #000;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      box-shadow: 0 0 15px #39ff14;
+    }
+    #resultado {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #0ff0fc;
+    }
+  </style>
+</head>
+<body>
+  <h1>💚 Fʀᴇᴅᴜᴋ CheckApp 💚</h1>
+  <input id="valor" placeholder="Introduce un valor">
+  <br>
+  <button onclick="verificar()">Verificar</button>
+  <div id="resultado"></div>
+
+  <script>
+    async function verificar() {
+      const value = document.getElementById("valor").value.trim();
+      if (!value) return alert("Introduce un valor");
+
+      const res = await fetch(`/api/check?value=${encodeURIComponent(value)}`);
+      const data = await res.json();
+
+      document.getElementById("resultado").innerHTML = data.resultado || data.msg;
+    }
+  </script>
+</body>
+</html>
