@@ -1,17 +1,23 @@
-export default async function handler(req, res) {
-  try {
-    const { value } = req.query;
-    if (!value) return res.status(400).json({ ok: false, msg: "Falta el parámetro 'value'" });
+export default function handler(req, res) {
+  const { value } = req.query;
 
-    const soloNumeros = /^[0-9]+$/.test(value);
-    const resultado = soloNumeros ? "✅ Valor válido (solo números)" : "❌ Valor inválido";
-
-    return res.status(200).json({
-      ok: true,
-      input: value,
-      resultado
-    });
-  } catch (err) {
-    res.status(500).json({ ok: false, error: err.message });
+  // Validar que se envíe el parámetro
+  if (!value) {
+    return res.status(400).json({ ok: false, msg: "Falta el parámetro 'value'" });
   }
+
+  // Verificar si el valor es "freduk"
+  let resultado;
+  if (value.toLowerCase() === "freduk") {
+    resultado = "✅ Valor verificado correctamente";
+  } else {
+    resultado = "❌ Valor incorrecto o no reconocido";
+  }
+
+  // Responder en formato JSON
+  res.status(200).json({
+    ok: true,
+    input: value,
+    resultado,
+  });
 }
