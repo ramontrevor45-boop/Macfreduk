@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Freduk CheckApp</title>
+  <title>💚 Freduk CheckApp 💚</title>
   <style>
     body {
       background-color: #000;
@@ -11,6 +11,9 @@
       font-family: 'Arial Black', sans-serif;
       text-align: center;
       padding-top: 100px;
+    }
+    h1 {
+      text-shadow: 0 0 10px #39ff14, 0 0 20px #39ff14;
     }
     input {
       background: #111;
@@ -20,6 +23,7 @@
       border-radius: 10px;
       width: 200px;
       text-align: center;
+      font-size: 16px;
     }
     button {
       margin-top: 10px;
@@ -30,33 +34,48 @@
       border-radius: 10px;
       cursor: pointer;
       font-weight: bold;
+      font-size: 16px;
     }
     button:hover {
       box-shadow: 0 0 15px #39ff14;
     }
     #resultado {
       margin-top: 20px;
-      font-size: 18px;
+      font-size: 20px;
       color: #0ff0fc;
+      text-shadow: 0 0 10px #0ff0fc;
     }
   </style>
 </head>
 <body>
   <h1>💚 Fʀᴇᴅᴜᴋ CheckApp 💚</h1>
-  <input id="valor" placeholder="Introduce un valor">
+  <input id="valor" placeholder="Introduce un valor...">
   <br>
   <button onclick="verificar()">Verificar</button>
   <div id="resultado"></div>
 
   <script>
     async function verificar() {
-      const value = document.getElementById("valor").value.trim();
-      if (!value) return alert("Introduce un valor");
+      const valor = document.getElementById("valor").value.trim();
+      const resultadoDiv = document.getElementById("resultado");
 
-      const res = await fetch(`/api/check?value=${encodeURIComponent(value)}`);
-      const data = await res.json();
+      if (!valor) {
+        resultadoDiv.innerHTML = "⚠️ Ingresa un valor para verificar.";
+        return;
+      }
 
-      document.getElementById("resultado").innerHTML = data.resultado || data.msg;
+      try {
+        const res = await fetch(`/api/check?value=${encodeURIComponent(valor)}`);
+        const data = await res.json();
+
+        if (data.resultado) {
+          resultadoDiv.innerHTML = data.resultado;
+        } else {
+          resultadoDiv.innerHTML = "❌ Error al procesar la verificación.";
+        }
+      } catch (err) {
+        resultadoDiv.innerHTML = "⚠️ Error de conexión con el servidor.";
+      }
     }
   </script>
 </body>
